@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Audi Certified Pre-Owned Stuart, FL</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="page">
+
+  <!-- ==================== HERO (single full-bleed image + translucent text panel) ==================== -->
+
+  <header class="hero">
+    <!-- Blurred copy of the hero photo for the sides on windows wider than 1920px (filled by the page script) -->
+    <div class="bleed-blur" data-mirror-of="hero" aria-hidden="true"></div>
+
+    <!-- HERO IMAGE — image slot, filled by the loader (see PAGE_IMAGES) (sharp 1920 x 700, centred) -->
+    <div class="col">
+      <div class="placeholder placeholder--dark placeholder--fill" data-label="Hero image (1920 x 700)" data-image-key="hero"></div>
+    </div>
+
+    <!-- Translucent panel over the left of the hero: x 80-555, full height -->
+    <div class="hero__panel">
+      <h1 class="hero__title">Audi Certified<br>Pre-Owned<br>Stuart, FL</h1>
+      <hr class="hero__divider">
+      <p class="hero__tagline">Inspected. Tested.<br>Ready for what’s next.</p>
+    </div>
+  </header>
+
+  <!-- ==================== CTA BAR / NAVIGATION (TOP) ==================== -->
+  <!-- Links are "#" placeholders: connect to inventory, quote, trade-in and pre-approval pages later -->
+
+  <nav class="cta-bar" aria-label="Primary actions">
+    <ul class="cta-bar__list">
+      <li><a class="btn btn--primary" href="#">View Inventory</a></li>
+      <li><a class="btn" href="#">Get a Quote</a></li>
+      <li><a class="btn" href="#">Value Your Trade</a></li>
+      <li><a class="btn" href="#">Get Pre-Approved</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <!-- ==================== DISCOVER YOUR NEXT AUDI (dark band with the 4-card strip) ==================== -->
+    <section class="discover" aria-labelledby="discover-heading">
+      <!-- DISCOVER BAND BACKGROUND IMAGE (blurred, darkened cars) — image slot, filled by the loader (see PAGE_IMAGES) -->
+      <div class="discover__bg">
+        <div class="bleed-blur" data-mirror-of="discoverBackground" aria-hidden="true"></div>
+        <div class="col"><div class="placeholder placeholder--dark placeholder--fill" data-label="Discover background image" data-image-key="discoverBackground"></div></div>
+      </div>
+
+      <div class="discover__head">
+        <h2 class="discover__title" id="discover-heading">Discover Your Next Audi in Stuart, FL</h2>
+        <p class="discover__intro">Every drive deserves the right Audi. Shop our selection of premium vehicles built to impress.</p>
+      </div>
+
+      <!--
+        Scrollable: swipe on touch, drag with the mouse, left/right arrow keys when focused, and two arrow
+        buttons that only appear while the strip is hovered or focused (see the CSS comment).
+      -->
+      <div class="carousel" data-carousel>
+        <div class="carousel__scroller" tabindex="0" role="region" aria-label="Vehicle categories">
+          <ul class="carousel__track">
+
+            <!-- CARD 1: HATCHBACKS -->
+            <li class="card">
+              <!-- VEHICLE CATEGORY IMAGE (HATCHBACKS) — image slot, filled by the loader (see PAGE_IMAGES) -->
+              <div class="placeholder placeholder--dark card__image" data-label="Hatchbacks image" data-image-key="discoverHatchbacks"></div>
+              <div class="card__fade"></div>
+              <div class="card__content">
+                <p class="card__label">
+                  <!-- CATEGORY ICON (HATCHBACKS) — icon file in assets/ -->
+                  <span class="icon-slot" aria-hidden="true"><img src="assets/Hatchback Logo.png" alt="" width="144" height="144" decoding="async"></span>
+                  Audi Hatchbacks
+                </p>
+                <a class="btn" href="#">View Inventory →</a>
+              </div>
+            </li>
+
+            <!-- CARD 2: SEDANS -->
+            <li class="card">
+              <!-- VEHICLE CATEGORY IMAGE (SEDANS) — image slot, filled by the loader (see PAGE_IMAGES) -->
+              <div class="placeholder placeholder--dark card__image" data-label="Sedans image" data-image-key="discoverSedans"></div>
+              <div class="card__fade"></div>
+              <div class="card__content">
+                <p class="card__label">
+                  <!-- CATEGORY ICON (SEDANS) — icon file in assets/ -->
+                  <span class="icon-slot" aria-hidden="true"><img src="assets/Sedan Logo.png" alt="" width="144" height="144" decoding="async"></span>
+                  Audi Sedans
+                </p>
+                <a class="btn" href="#">View Inventory →</a>
+              </div>
+            </li>
+
+            <!-- CARD 3: SUVs -->
+            <li class="card">
+              <!-- VEHICLE CATEGORY IMAGE (SUVs) — image slot, filled by the loader (see PAGE_IMAGES) -->
+              <div class="placeholder placeholder--dark card__image" data-label="SUVs image" data-image-key="discoverSuvs"></div>
+              <div class="card__fade"></div>
+              <div class="card__content">
+                <p class="card__label">
+                  <!-- CATEGORY ICON (SUVs) — icon file in assets/ -->
+                  <span class="icon-slot" aria-hidden="true"><img src="assets/SUV Logo.png" alt="" width="144" height="144" decoding="async"></span>
+                  Audi SUVs
+                </p>
+                <a class="btn" href="#">View Inventory →</a>
+              </div>
+            </li>
+
+            <!-- CARD 4: ELECTRIC (the PDF label reads "Audi Electrics" and is cropped by the page edge) -->
+            <li class="card">
+              <!-- VEHICLE CATEGORY IMAGE (ELECTRIC) — image slot, filled by the loader (see PAGE_IMAGES) -->
+              <div class="placeholder placeholder--dark card__image" data-label="Electric image" data-image-key="discoverElectric"></div>
+              <div class="card__fade"></div>
+              <div class="card__content">
+                <p class="card__label">
+                  <!-- CATEGORY ICON (ELECTRIC) — icon file in assets/ -->
+                  <span class="icon-slot" aria-hidden="true"><img src="assets/Electric Logo.png" alt="" width="144" height="144" decoding="async"></span>
+                  Audi Electrics
+                </p>
+                <a class="btn" href="#">View Inventory →</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Arrows: hidden completely until the strip is hovered or focused (see CSS) -->
+        <button class="carousel__arrow carousel__arrow--prev" type="button" aria-label="Previous vehicle categories">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+        <button class="carousel__arrow carousel__arrow--next" type="button" aria-label="Next vehicle categories">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================== DESIGNED. TESTED. BACKED BY EXPERTISE. ==================== -->
+    <section class="expertise" aria-labelledby="expertise-heading">
+      <h2 class="section-title" id="expertise-heading">Designed. Tested. Backed by expertise.</h2>
+      <p class="section-intro">Over 125 components are inspected by Audi trained technicians to ensure each Audi Certified pre-owned vehicle is in optimal condition.  Only after this comprehensive dealer inspection are we confident in backing the vehicle with our Audi Certified pre-owned Limited Warranty - which is more than a seal of approval, it’s a badge of honor.<sup><a href="#fn1">1</a></sup></p>
+
+      <!-- EXPERTISE WIDE IMAGE — image slot, filled by the loader (see PAGE_IMAGES) (1760 x 700) -->
+      <div class="placeholder" data-label="Expertise image (1760 x 700)" data-image-key="expertise"></div>
+    </section>
+
+    <!-- ==================== BENEFITS OF AUDI CERTIFIED PRE-OWNED ==================== -->
+    <section class="benefits" aria-labelledby="benefits-heading">
+      <h2 class="section-title" id="benefits-heading">The benefits of choosing Audi Certified pre-owned.</h2>
+      <p class="section-intro">Explore the sections below to discover how comprehensive the inspection, warranty, and additional features are in order to provide you with the quality ownership experience you’re searching for in an Audi.</p>
+
+      <div class="benefits__rows">
+
+        <!-- BENEFIT 1: LIMITED WARRANTY (image left, text right) -->
+        <article class="benefit">
+          <div class="benefit__media">
+            <!-- WARRANTY SECTION IMAGE — image slot, filled by the loader (see PAGE_IMAGES) (879 x 530) -->
+            <div class="placeholder" data-label="Warranty image (879 x 530)" data-image-key="warranty"></div>
+          </div>
+          <div class="benefit__body">
+            <h3 class="benefit__title">Audi Certified pre-owned Limited Warranty</h3>
+            <p class="benefit__subtitle">Start your journey with confidence.</p>
+            <p class="benefit__text">Your coverage is honored at over 300 Audi dealerships across the United States. Enjoy your Audi for miles to come with our Audi Certified pre-owned Limited Warranty featuring coverage for 1 year or 20,000 miles (whichever occurs first). The Audi Certified pre-owned Limited Warranty coverage commencement is dependent on whether any Audi New Vehicle Limited Warranty coverage remains at time of purchase.<sup><a href="#fn1">1</a></sup></p>
+          </div>
+        </article>
+
+        <!-- BENEFIT 2: INSPECTION AND CERTIFICATION (text left, image right) -->
+        <article class="benefit benefit--reverse">
+          <div class="benefit__media">
+            <!-- CERTIFICATION SECTION IMAGE — image slot, filled by the loader (see PAGE_IMAGES) (879 x 530) -->
+            <div class="placeholder" data-label="Inspection image (879 x 530)" data-image-key="inspection"></div>
+          </div>
+          <div class="benefit__body">
+            <h3 class="benefit__title">Comprehensive Dealer Inspection and Certification Process</h3>
+            <p class="benefit__subtitle">Comprehensively inspected.</p>
+            <p class="benefit__text">Only after the vehicle passes a detailed dealer inspection does it earn the right to be part of the Audi Certified pre-owned program. This process helps ensure each vehicle meets our highest standards.</p>
+          </div>
+        </article>
+
+        <!-- BENEFIT 3: ROADSIDE ASSISTANCE (image left, text right) -->
+        <article class="benefit">
+          <div class="benefit__media">
+            <!-- ROADSIDE ASSISTANCE IMAGE — image slot, filled by the loader (see PAGE_IMAGES) (879 x 530) -->
+            <div class="placeholder" data-label="Roadside image (879 x 530)" data-image-key="roadside"></div>
+          </div>
+          <div class="benefit__body">
+            <h3 class="benefit__title">24-Hour Roadside Assistance for One Year*</h3>
+            <p class="benefit__subtitle">We’ll be there for you if you need it.</p>
+            <p class="benefit__text">In the event of an incident, contact Audi Roadside Assistance anytime, any day. Our specialists will arrange a tow truck if needed and bring your Audi to the nearest Audi dealer to be fixed by our Audi trained technicians. Plus, this 1-year Roadside Assistance program includes trip interruption reimbursement.*</p>
+            <p class="benefit__text">See this site for complete details and limitations: <a href="https://www.audiusa.com/us/web/en/support/help/roadside-assistance.html" target="_blank" rel="noopener">https://www.audiusa.com/us/web/en/support/help/roadside-assistance.html</a><sup><a href="#fn2">2</a></sup></p>
+          </div>
+        </article>
+
+        <!-- BENEFIT 4: VEHICLE HISTORY REPORT (text left, image right) -->
+        <article class="benefit benefit--reverse">
+          <div class="benefit__media">
+            <!-- VEHICLE HISTORY REPORT IMAGE — image slot, filled by the loader (see PAGE_IMAGES) (879 x 530) -->
+            <div class="placeholder" data-label="History report image (879 x 530)" data-image-key="historyReport"></div>
+          </div>
+          <div class="benefit__body">
+            <h3 class="benefit__title">Vehicle History Report</h3>
+            <p class="benefit__subtitle">Know your Audi through and through.</p>
+            <p class="benefit__text">Drive away with additional peace of mind knowing the full history of your Audi with a comprehensive third-party vehicle history report.<sup><a href="#fn3">3</a></sup></p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ==================== FIND YOUR MATCH (full-bleed inventory banner, 1920 x 610) ==================== -->
+    <section class="match" aria-labelledby="match-heading">
+      <!-- Blurred copy of the banner photo for the sides on windows wider than 1920px (filled by the page script) -->
+      <div class="bleed-blur" data-mirror-of="findYourMatch" aria-hidden="true"></div>
+
+      <!-- INVENTORY BANNER IMAGE — image slot, filled by the loader (see PAGE_IMAGES) (sharp 1920 x 610, centred) -->
+      <div class="col">
+        <div class="placeholder placeholder--dark placeholder--fill" data-label="Find your match banner image (1920 x 610)" data-image-key="findYourMatch"></div>
+      </div>
+
+      <div class="match__text">
+        <h2 class="match__title" id="match-heading">Find your match.</h2>
+        <!-- Link target is a "#" placeholder: point to the CPO inventory page -->
+        <a class="match__link" href="#">Explore Audi Certified pre-owned inventory.</a>
+      </div>
+    </section>
+
+    <!-- ==================== ADDITIONAL RESOURCES ==================== -->
+    <section class="resources" aria-labelledby="resources-heading">
+      <h2 class="section-title" id="resources-heading">Additional resources.</h2>
+
+      <!-- ADDITIONAL RESOURCES IMAGE — image slot, filled by the loader (see PAGE_IMAGES) (1760 x 700) -->
+      <div class="placeholder" data-label="Additional resources image (1760 x 700)" data-image-key="additionalResources"></div>
+
+      <!-- The PDF mentions a PDF download but shows no link; none is added -->
+      <h3 class="resources__caption-title">Audi Certified pre-owned Limited Warranty</h3>
+      <p class="resources__caption">The Audi Certified pre-owned Limited Warranty and 24-Hour Roadside Assistance allow you to drive your Audi with confidence. Learn more by downloading the PDF below.</p>
+    </section>
+
+    <!-- ==================== EXPLORE THE NEW AUDI LINEUP ==================== -->
+    <section class="lineup" aria-labelledby="lineup-heading">
+      <div class="lineup__head">
+        <h2 class="lineup__heading" id="lineup-heading">Explore the new audi lineup</h2>
+      </div>
+
+      <ul class="lineup__list">
+
+        <!-- LINEUP ROW 1: HATCHBACKS -->
+        <li class="lineup__item">
+          <!-- LINEUP IMAGE (HATCHBACKS) — image slot, filled by the loader (see PAGE_IMAGES) (524 x 220) -->
+          <div class="placeholder" data-label="Hatchbacks image (524 x 220)" data-image-key="lineupHatchbacks"></div>
+          <!-- LINEUP ICON (HATCHBACKS) — icon file in assets/ (dark circle, 122px) -->
+          <span class="icon-slot" aria-hidden="true"><img src="assets/Hatchback Logo.png" alt="" width="144" height="144" decoding="async"></span>
+          <div class="lineup__body">
+            <h3 class="lineup__title">New Audi Hatchbacks</h3>
+            <p class="lineup__text">Compact, agile, and unmistakably refined. Explore Audi hatchbacks that blend sporty handling with premium design and everyday practicality.</p>
+          </div>
+          <a class="btn" href="#">View Inventory →</a>
+        </li>
+
+        <!-- LINEUP ROW 2: SEDANS -->
+        <li class="lineup__item">
+          <!-- LINEUP IMAGE (SEDANS) — image slot, filled by the loader (see PAGE_IMAGES) (524 x 220) -->
+          <div class="placeholder" data-label="Sedans image (524 x 220)" data-image-key="lineupSedans"></div>
+          <!-- LINEUP ICON (SEDANS) — icon file in assets/ -->
+          <span class="icon-slot" aria-hidden="true"><img src="assets/Sedan Logo.png" alt="" width="144" height="144" decoding="async"></span>
+          <div class="lineup__body">
+            <h3 class="lineup__title">New Audi Sedans</h3>
+            <p class="lineup__text">Sleek, sophisticated, and engineered to impress. Explore Audi sedans designed to deliver progressive luxury and dynamic performance on every drive.</p>
+          </div>
+          <a class="btn" href="#">View Inventory →</a>
+        </li>
+
+        <!-- LINEUP ROW 3: SUVs -->
+        <li class="lineup__item">
+          <!-- LINEUP IMAGE (SUVs) — image slot, filled by the loader (see PAGE_IMAGES) (524 x 220) -->
+          <div class="placeholder" data-label="SUVs image (524 x 220)" data-image-key="lineupSuvs"></div>
+          <!-- LINEUP ICON (SUVs) — icon file in assets/ -->
+          <span class="icon-slot" aria-hidden="true"><img src="assets/SUV Logo.png" alt="" width="144" height="144" decoding="async"></span>
+          <div class="lineup__body">
+            <h3 class="lineup__title">New Audi SUVs</h3>
+            <p class="lineup__text">Bold, capable, and built for every journey. Discover Audi SUVs that pair commanding presence with advanced technology and versatile comfort.</p>
+          </div>
+          <a class="btn" href="#">View Inventory →</a>
+        </li>
+
+        <!-- LINEUP ROW 4: ELECTRICS -->
+        <li class="lineup__item">
+          <!-- LINEUP IMAGE (ELECTRICS) — image slot, filled by the loader (see PAGE_IMAGES) (524 x 220) -->
+          <div class="placeholder" data-label="Electrics image (524 x 220)" data-image-key="lineupElectric"></div>
+          <!-- LINEUP ICON (ELECTRICS) — icon file in assets/ -->
+          <span class="icon-slot" aria-hidden="true"><img src="assets/Electric Logo.png" alt="" width="144" height="144" decoding="async"></span>
+          <div class="lineup__body">
+            <h3 class="lineup__title">New Audi Electrics</h3>
+            <p class="lineup__text">Silent, powerful, and charged for the future. Explore Audi electric vehicles designed to deliver instant performance and zero-emission luxury on every drive.</p>
+          </div>
+          <a class="btn" href="#">View Inventory →</a>
+        </li>
+      </ul>
+    </section>
+
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+
+  <footer>
+
+    <!-- ==================== CTA BAR / NAVIGATION (BOTTOM) ==================== -->
+    <nav class="cta-bar" aria-label="Primary actions (footer)">
+      <ul class="cta-bar__list">
+        <li><a class="btn btn--primary" href="#">View Inventory</a></li>
+        <li><a class="btn" href="#">Get a Quote</a></li>
+        <li><a class="btn" href="#">Value Your Trade</a></li>
+        <li><a class="btn" href="#">Get Pre-Approved</a></li>
+      </ul>
+    </nav>
+
+    <!-- ==================== LEGAL FOOTNOTES (order follows the PDF: 3, 2, 1) ==================== -->
+    <section class="legal" aria-label="Legal information">
+      <p id="fn3"><sup>3</sup>Audi does not warrant the accuracy of third-party vehicle history reports, and is not responsible for any incidental or consequential damages, including loss of resale value, lost profits or earnings, and out-of-pocket expenses, resulting from inaccurate and/or incomplete information contained in the reports.  See the third-party’s website for complete details about such reports, including the data contained therein.</p>
+
+      <p id="fn2"><sup>2</sup>Coverage begins upon expiration of the New Vehicle 24-Hour Roadside Assistance coverage, which is 4 years with unlimited mileage. If New Vehicle 24-Hour Roadside Assistance coverage has expired prior to CPO purchase, CPO 24-Hour Roadside Assistance coverage is one year from reported CPO sale date with unlimited mileage.</p>
+
+      <p id="fn1"><sup>1</sup>If there is remaining coverage from the Audi New Vehicle Limited Warranty at the time of Certified pre-owned purchase, the Audi New Vehicle Limited Warranty provides coverage on the Certified pre-owned vehicle until its expiration, either four years from the original in-service date or at 50,000 miles, whichever occurs first.  When the Audi New Vehicle Limited Warranty expires, the Audi Certified pre-owned Limited Warranty becomes effective and provides coverage for a period of one year or 20,000 miles, whichever occurs first.  If there is no remaining Audi New Vehicle Limited Warranty coverage remaining at time of purchase, the Audi Certified pre-owned Limited Warranty is effective at time of purchase and provides coverage for a period of one year or 20,000 miles, whichever occurs first.<br>See owner’s literature or dealer for warranty exclusions and limitations.</p>
+    </section>
+
+  </footer>
+
+</div>
+
+<!-- ==================== IMAGE LOADER (image-loader.js) ====================
+     Fills the image slots (elements with data-image-key) from the filenames configured below.
+     - An empty filename keeps that slot as a labelled placeholder.
+     - A slot's label disappears only AFTER its image has loaded successfully.
+     - A missing/misspelled file keeps the placeholder, sets data-image-status="missing" on the slot
+       and logs a warning in the browser console (F12 > Console).
+     - Images load section by section as you scroll (about one screen ahead), the hero first. -->
+<!-- ==================== IMAGE PATH CONFIGURATION ====================
+     Edit IMAGE_DIRECTORY and the filenames below. Paths are relative to this index.html file
+     (for example "assets/" or "images/audi/"). Filenames are used exactly as typed, including spaces and
+     capitalisation (many web servers are case-sensitive). Do not rename or move your original image files.
+     To reframe a photo, edit its --img-pos line in the "Per-image crop settings" CSS block, not this script.
+==================== -->
+<script src="image-loader.js"></script>
+
+<!-- ==================== PAGE SCRIPT (page.js) ====================
+     1) Blurred side copies: when a sharp band photo has loaded (loader above), copy it to its
+        .bleed-blur element so windows wider than 1920px get soft sides instead of a cropped car.
+     2) Card strip: starts centred; arrows scroll one card; mouse drag; hides the arrows when all four
+        cards fit; on tablet/phone it auto-scrolls one card every 4.5s (loops, stops on first interaction,
+        pauses on hover/focus, off for reduced motion, no pause button). -->
+<script src="page.js"></script>
+
+</body>
+</html>

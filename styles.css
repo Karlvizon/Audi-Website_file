@@ -1,0 +1,551 @@
+/* Audi Certified Pre-Owned Stuart, FL: styles (see the rebuild notes at the top of index.html) */
+/* ==================== DESIGN TOKENS ==================== */
+:root {
+  --design-w: 1920;                      /* width of the reference design in px */
+  /* 1 reference px, capped at 1920 wide; resolves against .page container (full window width) */
+  --u: calc(min(100cqw, 1920px) / var(--design-w));
+  /* Side padding that keeps content in the centred 1760px column (80px margins at <= 1920px) */
+  --pad-x: calc((100% - 1760 * var(--u)) / 2);
+  --color-band: #101319;                 /* CTA bar / dark band (sampled) */
+  --color-discover: #0d0f14;             /* Discover band base (sampled) */
+  --color-red: #bb0a30;                  /* primary CTA (sampled) */
+  --color-text: #000;
+  --color-ph-light: #dcdde0;             /* placeholder: light image areas */
+  --color-ph-dark: #3a3b40;              /* placeholder: dark image areas */
+  --font-main: "Audi Type", "AudiType", "Helvetica Neue", Helvetica, Arial, "Segoe UI", sans-serif;
+  /* Body copy: 20/24px at 1920 wide, never below 13/16px on small desktop windows */
+  --fs-copy: max(calc(20 * var(--u)), 15px);
+  --lh-copy: max(calc(24 * var(--u)), 20px);
+}
+
+/* ==================== RESET / BASE ==================== */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--color-band); font-family: var(--font-main); color: var(--color-text); }
+h1, h2, h3, p, ul { margin: 0; padding: 0; }
+ul { list-style: none; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid #4d9cff; outline-offset: 2px; }
+sup { font-size: 0.6em; line-height: 0; vertical-align: super; }
+
+/* Slight tracking approximates Audi Type's wider text so line breaks match the PDF with the fallback font.
+   Remove once the real font is loaded. */
+.page p, .page h3 { letter-spacing: 0.01em; }
+
+/* Page wrapper: full window width; it is the size container for --u */
+.page {
+  container-type: inline-size;
+  width: 100%;
+  background: #fff;
+  overflow: hidden;
+}
+
+/* Centred 1920px column inside a full-bleed band (used for the sharp hero / Discover / banner photos) */
+.col {
+  position: absolute;
+  top: 0; bottom: 0; left: 0; right: 0;
+  width: calc(1920 * var(--u));
+  margin: 0 auto;
+}
+
+/* Soft blurred copy of a band photo that fills the sides when the window is wider than 1920px.
+   Hidden until the sharp photo has loaded (the page script copies the image across). */
+.bleed-blur {
+  display: none;
+  position: absolute;
+  inset: -40px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(24px) brightness(0.8);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.bleed-blur.is-ready { opacity: 1; }
+.bleed-blur[data-mirror-of="discoverBackground"] { background-position: center bottom; }
+@media (min-width: 1800px) { .bleed-blur { display: block; } }
+
+/* ==================== IMAGE PLACEHOLDERS ====================
+   Boxes that reserve the exact area of each image in the PDF. The loader script at the end of the page
+   fills them from PAGE_IMAGES. To use an <img> instead, replace the whole <div class="placeholder">. */
+.placeholder {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-ph-light);
+}
+.placeholder--dark { background: var(--color-ph-dark); }
+/* Development label chip. It is hidden automatically once the slot's image loads
+   (see .placeholder--has-image below). DELETE THIS RULE to hide all labels. */
+.placeholder::after {
+  content: attr(data-label);
+  position: absolute;
+  z-index: 2;
+  top: calc(12 * var(--u));
+  left: calc(12 * var(--u));
+  max-width: calc(90% - 24 * var(--u));
+  padding: calc(7 * var(--u)) calc(10 * var(--u));
+  border-radius: calc(3 * var(--u));
+  background: rgba(0, 0, 0, 0.68);
+  color: #fff;
+  font-size: calc(14 * var(--u));
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  text-align: left;
+  pointer-events: none;
+}
+.placeholder--fill { position: absolute; inset: 0; }
+
+/* ---- Image slots filled by the loader script at the end of the page ----
+   The script adds .placeholder--has-image only after an image has loaded successfully,
+   so a missing or misspelled file keeps its labelled placeholder visible. */
+.placeholder--has-image {
+  background-size: var(--img-size, cover);
+  background-position: var(--img-pos, center);
+  background-repeat: no-repeat;
+}
+.placeholder--has-image::after { display: none; }
+
+/* ---- Per-image crop settings (background-position) ----
+   One line per image slot, keyed by its data-image-key. Edit --img-pos to reframe a photo:
+   "center top" keeps heads/upper parts, "center bottom" keeps the lower part, "30% 60%" is x% y%.
+   Keep percentages between 0% and 100%; values outside that range leave an empty strip.
+   Slots not listed here use the default crop (centred, cover): hero, warranty, historyReport,
+   the four Discover cards and the four lineup images. Add a line for any of them to reframe it. */
+[data-image-key="discoverBackground"]  { --img-size: auto 175%; --img-pos: center 100%; } /* PDF shows the bottom of this image in the band */
+[data-image-key="expertise"]           { --img-size: auto 180%; --img-pos: center 70%; }
+[data-image-key="inspection"]          { --img-size: auto 170%; --img-pos: center 20%; }
+[data-image-key="roadside"]            { --img-size: auto 170%; --img-pos: center 25%; }
+[data-image-key="findYourMatch"]       { --img-size: auto 140%; --img-pos: center 80%; }
+[data-image-key="additionalResources"] { --img-pos: center top; }
+
+/* Round icon holder (empty circle until an icon <img> is placed inside) */
+.icon-slot {
+  flex: none;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon-slot img { display: block; max-height: 100%; object-fit: contain; }
+.card__label .icon-slot img { width: 68%; height: auto; }   /* Discover cards (76px circle) */
+.lineup__item .icon-slot img { width: 60%; height: auto; }  /* lineup rows (122px circle) */
+
+/* ==================== BUTTONS ==================== */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: inherit;
+  font-size: calc(24 * var(--u));
+  line-height: 1;
+  color: #fff;
+  text-decoration: none;
+  background: #000;
+  border: 1px solid #fff;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+.btn--primary { background: var(--color-red); }
+/* Footer "View Inventory" is black in the PDF, like the other footer buttons. */
+footer .cta-bar .btn--primary { background: #000; }
+.btn:hover { background: #24262d; }
+.btn--primary:hover { background: #d10c37; }
+footer .cta-bar .btn--primary:hover { background: #24262d; }
+
+/* ==================== HERO (0 - 700px) ==================== */
+.hero { position: relative; height: calc(700 * var(--u)); background: var(--color-ph-dark); overflow: hidden; }
+/* Translucent text panel: x 80-555 (475 wide), full hero height, kept inside the centred 1920px column */
+.hero__panel {
+  position: absolute;
+  left: var(--pad-x);
+  top: 0;
+  width: calc(475 * var(--u));
+  height: 100%;
+  padding-top: calc(171 * var(--u));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  background: rgba(30, 30, 30, 0.42);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  -webkit-backdrop-filter: blur(calc(6 * var(--u)));
+  backdrop-filter: blur(calc(6 * var(--u)));
+}
+.hero__title { font-size: calc(58 * var(--u)); line-height: calc(71 * var(--u)); font-weight: 600; }
+.hero__divider { width: calc(395 * var(--u)); height: 1px; margin: calc(48 * var(--u)) 0 calc(37 * var(--u)); border: 0; background: rgba(255, 255, 255, 0.85); }
+.hero__tagline { font-size: var(--fs-copy); line-height: var(--lh-copy); }
+
+/* ==================== CTA BARS (140px tall; used under hero and above legal) ==================== */
+.cta-bar { height: calc(140 * var(--u)); padding: calc(28 * var(--u)) 0; background: var(--color-band); }
+.cta-bar__list {
+  height: 100%;
+  max-width: calc(1760 * var(--u));
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: calc(26.67 * var(--u));
+}
+.cta-bar__list li { display: flex; }
+.cta-bar .btn { width: 100%; text-transform: uppercase; }
+
+/* ==================== DISCOVER BAND (840 - 1725px) ==================== */
+.discover { position: relative; height: calc(885 * var(--u)); background: var(--color-discover); color: #fff; overflow: hidden; }
+.discover__bg { position: absolute; inset: 0; }
+.discover__bg .placeholder { align-items: flex-end; padding-bottom: calc(28 * var(--u)); } /* label sits below the cards */
+.discover__bg::after { content: ""; position: absolute; inset: 0; background: rgba(13, 15, 20, 0.7); } /* dark wash over the blurred bg image */
+.discover__head { position: relative; padding-top: calc(67 * var(--u)); text-align: center; }
+.discover__title { font-size: calc(60 * var(--u)); line-height: calc(60 * var(--u)); font-weight: 700; }
+.discover__intro { margin-top: calc(28 * var(--u)); font-size: calc(24 * var(--u)); line-height: calc(24 * var(--u)); }
+
+/* Cards strip: 4 cards of 512px on a 548px pitch (36px gaps), total 2156px (+20px at each end so the
+   glow is not clipped = 2196px), centred on the page, so at 1920px the outer cards are cropped by the
+   page edges (as in the PDF). Cards top at y=1092 (252 below band top).
+   The strip is a scroller that starts centred. It spans the full window, so from about 2196px wide
+   all four cards fit and nothing scrolls. */
+.carousel {
+  position: absolute;
+  left: 0; right: 0;
+  top: calc(232 * var(--u));        /* 20px above the cards (cards still start at y=1092) ... */
+  height: calc(597 * var(--u));     /* ... and 20px below them, so the 14px glow is not clipped */
+}
+.carousel__scroller {
+  --strip-pad: calc(20 * var(--u)); /* space before the first and after the last card */
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+.carousel__scroller::-webkit-scrollbar { display: none; }
+.carousel__scroller:focus-visible { outline-offset: -3px; }
+.carousel__track {
+  position: relative;
+  display: flex;
+  gap: calc(36 * var(--u));
+  width: max-content;
+  margin-inline: auto;              /* centres the strip when everything fits */
+  padding-block: calc(20 * var(--u)); /* puts the 557px cards back at 252px from the band top */
+}
+.card:first-child { margin-left: var(--strip-pad); }
+.card:last-child { margin-right: var(--strip-pad); }
+
+/* Mouse drag (script adds .is-dragging) */
+@media (hover: hover) {
+  .carousel:not([data-fits]) .carousel__scroller { cursor: grab; }
+  .carousel:not([data-fits]) .carousel__scroller.is-dragging { cursor: grabbing; }
+}
+.carousel__scroller.is-dragging { user-select: none; -webkit-user-select: none; scroll-snap-type: none !important; }
+
+/* Arrows: invisible AND unclickable AND skipped by Tab (visibility: hidden) until the strip is hovered
+   or has keyboard focus. Visibility switches after the fade so the fade-out is seen. */
+.carousel__arrow {
+  position: absolute;
+  top: calc(270 * var(--u));
+  z-index: 3;
+  width: max(calc(56 * var(--u)), 44px);
+  height: max(calc(56 * var(--u)), 44px);
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  border-radius: 50%;
+  cursor: pointer;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s ease, visibility 0s linear 0.2s, background-color 0.15s ease;
+}
+.carousel__arrow--prev { left: max(calc(24 * var(--u)), 12px); }
+.carousel__arrow--next { right: max(calc(24 * var(--u)), 12px); }
+.carousel__arrow svg { width: 40%; height: 40%; display: block; }
+.carousel__arrow:hover { background: #24262d; }
+.carousel__arrow:disabled { filter: opacity(0.4); cursor: default; pointer-events: none; }
+.carousel:hover .carousel__arrow,
+.carousel:has(.carousel__scroller:focus-visible) .carousel__arrow,
+.carousel:has(.carousel__arrow:focus-visible) .carousel__arrow {
+  visibility: visible;
+  opacity: 1;
+  transition-delay: 0s;
+}
+/* Screens that cannot hover keep the arrows visible */
+@media (hover: none) {
+  .carousel .carousel__arrow { visibility: visible; opacity: 1; transition-delay: 0s; }
+}
+/* All four cards fit: nothing to scroll, no arrows */
+.carousel[data-fits] .carousel__arrow { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .carousel__arrow, .bleed-blur { transition: none; }
+}
+
+/* Each card is a slightly slanted rounded panel (edges lean ~2.9deg); its content is counter-slanted upright */
+.card {
+  position: relative;
+  flex: none;
+  width: calc(512 * var(--u));
+  height: calc(557 * var(--u));
+  background: #000;
+  border: 2px solid rgba(255, 255, 255, 0.92);
+  border-radius: calc(26 * var(--u));
+  box-shadow: 0 0 calc(14 * var(--u)) rgba(255, 255, 255, 0.35);
+  transform: skewX(-2.86deg);
+  overflow: hidden;
+}
+.card__image { position: absolute; left: 0; right: 0; top: 0; height: 90%; }
+.card__fade { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0) 38%, #000 66%); }
+.card__content { position: absolute; inset: 0; transform: skewX(2.86deg); }
+.card__label {
+  position: absolute;
+  left: 0; right: 0;
+  top: calc(357 * var(--u));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(12 * var(--u));
+  font-size: calc(36 * var(--u));
+  line-height: calc(36 * var(--u));
+  white-space: nowrap;
+}
+.card__label .icon-slot { width: calc(76 * var(--u)); height: calc(76 * var(--u)); border: 2px solid #fff; background: #000; }
+.card .btn {
+  position: absolute;
+  left: 50%;
+  top: calc(452 * var(--u));
+  width: calc(429 * var(--u));
+  height: calc(74 * var(--u));
+  margin-left: calc(-214.5 * var(--u));
+  border-radius: calc(10 * var(--u));
+}
+
+/* ==================== EXPERTISE (1725 - 2728px) ==================== */
+.expertise { padding: calc(69 * var(--u)) var(--pad-x); text-align: center; }
+.section-title, .match__title { font-size: calc(58 * var(--u)); line-height: calc(58 * var(--u)); font-weight: 700; }
+.section-intro { margin-top: calc(26 * var(--u)); font-size: var(--fs-copy); line-height: var(--lh-copy); }
+.expertise .placeholder { height: calc(700 * var(--u)); margin-top: calc(33 * var(--u)); }
+
+/* ==================== BENEFITS (2728 - 5143px) ==================== */
+.benefits { padding: 0 var(--pad-x) calc(70 * var(--u)); text-align: center; }
+.benefits__rows { margin-top: calc(33 * var(--u)); text-align: left; }
+/* Rows: 530px tall, 20px apart, two columns 879px wide with a 2px gutter */
+.benefit {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: calc(2 * var(--u));
+  height: calc(530 * var(--u));
+  align-items: stretch;
+}
+.benefit + .benefit { margin-top: calc(20 * var(--u)); }
+.benefit--reverse .benefit__media { order: 2; }
+.benefit__media .placeholder { height: 100%; }
+.benefit__body { display: flex; flex-direction: column; justify-content: center; padding: 0 calc(62 * var(--u)); }
+.benefit__title, .resources__caption-title, .lineup__title { font-size: calc(32 * var(--u)); line-height: calc(32 * var(--u)); font-weight: 600; }
+.benefit__title { line-height: calc(39 * var(--u)); }
+.benefit__subtitle { margin-top: calc(20 * var(--u)); font-size: var(--fs-copy); line-height: var(--lh-copy); font-weight: 700; }
+.benefit__text { margin-top: calc(20 * var(--u)); font-size: var(--fs-copy); line-height: var(--lh-copy); }
+.benefit__text + .benefit__text { margin-top: calc(24 * var(--u)); }
+.benefit__text a { color: inherit; text-decoration: underline; word-break: break-all; }
+
+/* ==================== FIND YOUR MATCH BANNER (5143 - 5753px, full bleed) ==================== */
+.match { position: relative; height: calc(610 * var(--u)); color: #fff; overflow: hidden; }
+.match__text { position: absolute; right: var(--pad-x); top: calc(52 * var(--u)); text-align: right; }
+.match__link { display: block; margin-top: calc(31 * var(--u)); font-size: calc(32 * var(--u)); line-height: calc(32 * var(--u)); font-weight: 600; text-decoration: none; }
+.match__link:hover { text-decoration: underline; }
+
+/* ==================== ADDITIONAL RESOURCES (5753 - 6724px) ==================== */
+.resources { padding: calc(69 * var(--u)) var(--pad-x) 0; }
+.resources .section-title { text-align: center; }
+.resources .placeholder { height: calc(700 * var(--u)); margin-top: calc(44 * var(--u)); }
+.resources__caption-title { margin-top: calc(19 * var(--u)); }
+.resources__caption { margin-top: calc(25 * var(--u)); font-size: var(--fs-copy); line-height: var(--lh-copy); }
+
+/* ==================== EXPLORE THE NEW AUDI LINEUP (6724 - 8216px) ==================== */
+.lineup { padding: calc(108 * var(--u)) var(--pad-x) calc(95 * var(--u)); }
+.lineup__head { text-align: center; }
+.lineup__heading {
+  display: inline-block;
+  padding: 0 calc(10 * var(--u)) calc(23 * var(--u));
+  font-size: calc(60 * var(--u));
+  line-height: calc(60 * var(--u));
+  font-weight: 600;
+  letter-spacing: 0.082em;
+  text-transform: uppercase;
+  color: var(--color-band);
+  border-bottom: calc(2 * var(--u)) solid var(--color-band);
+}
+.lineup__list { margin-top: calc(60 * var(--u)); }
+/* Rows are 286px tall incl. a 2px black rule; columns: image 524 | icon 122 (+50 left margin) | text 486 (+52 left margin) | button 429 */
+.lineup__item {
+  display: grid;
+  grid-template-columns: calc(524 * var(--u)) calc(172 * var(--u)) calc(538 * var(--u)) calc(429 * var(--u));
+  align-items: center;
+  height: calc(286 * var(--u));
+  padding-left: calc(48 * var(--u));
+  border-bottom: calc(2 * var(--u)) solid #000;
+}
+.lineup__item .placeholder { height: calc(220 * var(--u)); }
+.lineup__item .icon-slot {
+  width: calc(122 * var(--u)); height: calc(122 * var(--u));
+  margin-left: calc(50 * var(--u));
+  background: var(--color-band);
+  box-shadow: 0 calc(6 * var(--u)) calc(14 * var(--u)) rgba(0, 0, 0, 0.25);
+}
+.lineup__body { margin-left: calc(52 * var(--u)); max-width: calc(434 * var(--u)); }
+.lineup__text { margin-top: calc(23 * var(--u)); font-size: max(calc(24 * var(--u)), 15px); line-height: max(calc(29 * var(--u)), 19px); }
+.lineup__item .btn { height: calc(75 * var(--u)); border-radius: calc(38 * var(--u)); border-color: #666; }
+
+/* ==================== LEGAL FOOTNOTES (8356 - 8668px) ==================== */
+.legal { padding: calc(68 * var(--u)) var(--pad-x) calc(2 * var(--u)); font-size: max(calc(18 * var(--u)), 12px); line-height: max(calc(22 * var(--u)), 16px); }
+.legal p + p { margin-top: calc(22 * var(--u)); }
+
+/* ==================== TABLET + PHONE LAYOUTS (1099px and below) ====================
+   The 1920px composition above is untouched. Below 1099px it is rebuilt as a fluid layout:
+   sizes use rem-based clamp() so they follow browser text-size settings and never get tiny. */
+@media (max-width: 1099px) {
+  :root {
+    --gutter: clamp(20px, 5vw, 48px);
+    --fs-body: clamp(1rem, 0.92rem + 0.4vw, 1.1875rem);          /* 16px phone -> 19px */
+    --fs-small: clamp(0.8125rem, 0.78rem + 0.2vw, 0.9375rem);   /* 13px -> 15px (footnotes) */
+    --fs-h2: clamp(1.625rem, 1.05rem + 2.4vw, 2.5rem);          /* section titles */
+    --fs-h3: clamp(1.1875rem, 1rem + 1vw, 1.625rem);            /* card / row titles */
+    --fs-btn: clamp(0.875rem, 0.8rem + 0.4vw, 1.0625rem);       /* button labels */
+  }
+  .placeholder::after { top: 8px; left: 8px; padding: 4px 8px; font-size: 11px; }
+  .section-title, .match__title { font-size: var(--fs-h2); line-height: 1.15; }
+  .section-intro { margin-top: clamp(12px, 2vw, 24px); font-size: var(--fs-body); line-height: 1.45; }
+
+  /* Hero */
+  .hero { height: clamp(400px, 60vw, 640px); }
+  .hero__panel {
+    left: var(--gutter);
+    width: clamp(290px, 42vw, 440px);
+    padding: 0 clamp(16px, 3vw, 28px);
+    justify-content: center;
+  }
+  .hero__title { font-size: clamp(1.75rem, 1.1rem + 2.8vw, 3rem); line-height: 1.2; }
+  .hero__divider { width: 80%; margin: clamp(16px, 3vw, 32px) 0; }
+  .hero__tagline { font-size: var(--fs-body); line-height: 1.4; }
+
+  /* CTA bars */
+  .cta-bar { height: auto; padding: clamp(18px, 3vw, 28px) var(--gutter); }
+  .cta-bar__list { max-width: none; gap: clamp(8px, 1.6vw, 16px); }
+  .cta-bar .btn { height: auto; min-height: 52px; padding: 12px 8px; font-size: var(--fs-btn); line-height: 1.15; text-align: center; }
+
+  /* Discover: card strip is a swipeable scroller. Cards re-scale as a unit via a local --u. */
+  .discover { height: auto; padding-bottom: clamp(32px, 6vw, 56px); }
+  .discover__head { padding: clamp(40px, 7vw, 67px) var(--gutter) 0; }
+  .discover__title { font-size: clamp(1.75rem, 1.1rem + 2.6vw, 2.75rem); line-height: 1.15; }
+  .discover__intro { margin-top: 14px; font-size: var(--fs-body); line-height: 1.4; }
+  .carousel {
+    position: relative;
+    top: 0;
+    height: auto;
+    margin-top: clamp(12px, 3vw, 32px);
+  }
+  .carousel__scroller {
+    --card-w: clamp(272px, 74vw, 460px);
+    --u: calc(var(--card-w) / 512);
+    --strip-pad: var(--gutter);
+    height: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+  }
+  .carousel__track { margin-inline: 0; }
+  .carousel__arrow { display: none; }  /* phone/tablet: swipe + auto-scroll only, no arrows */
+  .card { scroll-snap-align: start; }
+  .card .btn { min-height: 44px; }
+  sup { font-size: 0.75em; }
+
+  /* Expertise, resources: images keep the PDF proportions instead of a fixed height */
+  .expertise { padding: clamp(36px, 6vw, 69px) var(--gutter); }
+  .expertise .placeholder { height: auto; aspect-ratio: 1760 / 700; margin-top: clamp(20px, 3vw, 33px); }
+
+  /* Benefits: two-column alternating rows on tablet */
+  .benefits { padding: 0 var(--gutter) clamp(36px, 6vw, 70px); }
+  .benefits__rows { margin-top: clamp(20px, 3vw, 33px); }
+  .benefit { height: auto; column-gap: 0; align-items: center; }
+  .benefit + .benefit { margin-top: clamp(16px, 2.5vw, 24px); }
+  .benefit__media .placeholder { height: auto; aspect-ratio: 879 / 530; }
+  .benefit__body { padding: clamp(20px, 4vw, 48px); }
+  .benefit__title, .resources__caption-title, .lineup__title { font-size: var(--fs-h3); line-height: 1.25; }
+  .benefit__subtitle { margin-top: 10px; font-size: var(--fs-body); line-height: 1.4; }
+  .benefit__text { margin-top: 10px; font-size: var(--fs-body); line-height: 1.5; }
+  .benefit__text + .benefit__text { margin-top: 14px; }
+
+  /* Find your match banner */
+  .match { height: clamp(260px, 38vw, 460px); }
+  .match__text { right: var(--gutter); top: clamp(24px, 4vw, 52px); max-width: 80%; }
+  .match__link { margin-top: 10px; font-size: clamp(1rem, 0.9rem + 0.8vw, 1.5rem); line-height: 1.3; }
+
+  /* Additional resources */
+  .resources { padding: clamp(36px, 6vw, 69px) var(--gutter) 0; }
+  .resources .placeholder { height: auto; aspect-ratio: 1760 / 700; margin-top: clamp(20px, 3vw, 44px); }
+  .resources__caption-title { margin-top: 16px; }
+  .resources__caption { margin-top: 8px; font-size: var(--fs-body); line-height: 1.5; }
+
+  /* Lineup rows: image | icon | text, with the button under the text */
+  .lineup { padding: clamp(48px, 8vw, 108px) var(--gutter) clamp(40px, 7vw, 95px); }
+  .lineup__heading { padding: 0 0.2em 14px; font-size: clamp(1.25rem, 0.8rem + 2.3vw, 2.25rem); line-height: 1.2; letter-spacing: 0.06em; }
+  .lineup__list { margin-top: clamp(24px, 4vw, 60px); }
+  .lineup__item {
+    height: auto;
+    padding: clamp(20px, 3vw, 32px) 0;
+    grid-template-columns: minmax(0, 36%) auto minmax(0, 1fr);
+    grid-template-areas: "img icon body" "img icon btn";
+    column-gap: clamp(16px, 3vw, 40px);
+    row-gap: 14px;
+  }
+  .lineup__item .placeholder { grid-area: img; height: auto; aspect-ratio: 524 / 220; }
+  .lineup__item .icon-slot { grid-area: icon; width: clamp(64px, 9vw, 96px); height: clamp(64px, 9vw, 96px); margin-left: 0; }
+  .lineup__body { grid-area: body; margin-left: 0; max-width: none; align-self: end; }
+  .lineup__text { margin-top: 8px; font-size: var(--fs-body); line-height: 1.45; }
+  .lineup__item .btn { grid-area: btn; align-self: start; justify-self: start; width: auto; min-width: 200px; height: auto; min-height: 52px; padding: 12px 28px; font-size: var(--fs-btn); border-radius: 999px; }
+
+  /* Legal */
+  .legal { padding: clamp(32px, 5vw, 68px) var(--gutter) 24px; font-size: var(--fs-small); line-height: 1.5; }
+  .legal p + p { margin-top: 14px; }
+  .benefit__text a { overflow-wrap: anywhere; word-break: normal; }
+}
+
+/* Small phones: a little more room inside the 2x2 CTA buttons */
+@media (max-width: 480px) {
+  .cta-bar .btn { font-size: 0.8125rem; letter-spacing: 0; }
+}
+
+/* Larger touch targets for the tiny footnote links on touch screens */
+@media (max-width: 1099px) and (pointer: coarse) {
+  sup a { display: inline-block; padding: 0.5em 0.4em; margin: -0.5em -0.4em; }
+}
+
+/* ==================== PHONE LAYOUT (767px and below) ==================== */
+@media (max-width: 767px) {
+  .cta-bar__list { grid-template-columns: 1fr 1fr; }
+  .hero { height: clamp(380px, 100vw, 520px); }
+  .hero__panel { left: 0; width: min(84%, 340px); }
+  .expertise .placeholder, .resources .placeholder { aspect-ratio: 16 / 9; }
+
+  .benefit { grid-template-columns: 1fr; row-gap: 14px; }
+  .benefit + .benefit { margin-top: 32px; }
+  .benefit--reverse .benefit__media { order: 0; }
+  .benefit__media .placeholder { aspect-ratio: 16 / 10; }
+  .benefit__body { padding: 0; }
+
+  .match { height: clamp(280px, 72vw, 360px); }
+
+  .lineup__item {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas: "img img" "icon body" "btn btn";
+    column-gap: 16px;
+    row-gap: 16px;
+  }
+  .lineup__item .placeholder { aspect-ratio: 16 / 8; }
+  .lineup__item .icon-slot { width: 64px; height: 64px; align-self: center; }
+  .lineup__body { align-self: center; }
+  .lineup__item .btn { justify-self: stretch; width: 100%; }
+}
