@@ -119,7 +119,7 @@ sup { font-size: 0.6em; line-height: 0; vertical-align: super; }
 [data-image-key="inspection"]          { --img-size: auto 170%; --img-pos: center 20%; }
 [data-image-key="roadside"]            { --img-size: auto 170%; --img-pos: center 25%; }
 [data-image-key="findYourMatch"]       { --img-size: auto 140%; --img-pos: center 80%; }
-[data-image-key="additionalResources"] { --img-pos: center top; }
+[data-image-key="additionalResources"] { --img-size: auto 145%; --img-pos: center 30%; }
 
 /* Round icon holder (empty circle until an icon <img> is placed inside) */
 .icon-slot {
